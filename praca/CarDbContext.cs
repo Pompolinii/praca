@@ -16,19 +16,12 @@ public class CarDbContext : IdentityDbContext<ApplicationUser>
     {
 
        // modelBuilder.Entity<Car>()
-                //.Ignore(c => c.ImagePath); // Ignorowanie właściwości IFormFile
+                //.Ignore(c => c.ImagePath);
+                // Ignorowanie właściwości IFormFile
 
         base.OnModelCreating(modelBuilder);
 
         // Configure ASP.NET Identity tables
-        modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers");
-        modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles");
-        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles");
-        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims");
-        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUserLogins");
-        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens");
-        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims");
-
 
     }
 }

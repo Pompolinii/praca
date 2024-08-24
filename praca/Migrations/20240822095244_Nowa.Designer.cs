@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace praca.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20240822072222_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240822095244_Nowa")]
+    partial class Nowa
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -247,6 +247,10 @@ namespace praca.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsRented")
                         .HasColumnType("bit");
 
@@ -261,15 +265,7 @@ namespace praca.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-
                     b.HasKey("Id");
-
-
-
 
                     b.ToTable("Cars");
                 });
