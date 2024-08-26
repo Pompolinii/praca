@@ -11,6 +11,13 @@ namespace praca.Entities
         public string Model { get; set; }
         public int Year { get; set; }
         public bool IsRented { get; set; }
-        public string ImagePath { get; set; } // To pole musi być obecne
+        public string ImagePath { get; set; }  
+        public string Transmission { get; set; }
+
+        public float Enginesize   {get; set; }
+
+        public int Price { get; set; }
+
+     
     }
 }

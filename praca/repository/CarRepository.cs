@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using praca.Entities;
+using System.IO.Pipes;
 
 namespace praca.repository
 {
@@ -11,7 +12,7 @@ namespace praca.repository
         {
             _carDbContext=carDbContext;
         }
-        public async Task<Car> PostCarAsync(string marka, string model, int year, bool isRented, string imagePath)
+        public async Task<Car> PostCarAsync(string marka, string model, int year, bool isRented, string imagePath , string transmission, float enginesize , int price )
         {
             var car = new Car
             {
@@ -19,7 +20,10 @@ namespace praca.repository
                 Model = model,
                 Year = year,
                 IsRented = isRented,
-                ImagePath = imagePath // Zapisujemy ścieżkę do obrazu
+                ImagePath = imagePath,
+                Transmission= transmission,
+                Enginesize=enginesize,
+                Price= price
             };
 
             await _carDbContext.Cars.AddAsync(car);
@@ -43,7 +47,7 @@ namespace praca.repository
         }
 
 
-        public async Task<bool> UpdateCarAsync(int id, string model, string marka, int year, string imagePath)
+        public async Task<bool> UpdateCarAsync(int id, string model, string marka, int year, string imagePath , string transmission, float enginesize, int price)
         {
             var car = await _carDbContext.Cars.FindAsync(id);
             if (car == null)
@@ -52,6 +56,9 @@ namespace praca.repository
             car.Marka = marka;
             car.Model = model;
             car.Year = year;
+            car.Transmission = transmission;
+            car.Enginesize = enginesize;
+            car.Price = price;
 
             // Aktualizujemy ścieżkę do obrazu tylko wtedy, gdy jest przekazana
             if (!string.IsNullOrEmpty(imagePath))
@@ -75,7 +82,7 @@ namespace praca.repository
             return await _carDbContext.Cars.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Car>> SearchCarsAsync(string marka, string model, int? minYear, int? maxYear)
+        public async Task<IEnumerable<Car>> SearchCarsAsync(string marka, string model, int? minYear, int? maxYear, string transmission, float? minEngineSize, float? maxEngineSize, int? minPrice, int? maxPrice)
         {
             var query = _carDbContext.Cars.AsQueryable();
 
@@ -87,6 +94,31 @@ namespace praca.repository
             if (!string.IsNullOrEmpty(model))
             {
                 query = query.Where(c => c.Model.ToLower().Contains(model.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(transmission))
+            {
+                query = query.Where(c => c.Transmission.ToLower().Contains(transmission.ToLower()));
+            }
+
+            if (minEngineSize.HasValue)
+            {
+                query = query.Where(c => c.Enginesize >= minEngineSize.Value);
+            }
+
+            if (maxEngineSize.HasValue)
+            {
+                query = query.Where(c => c.Enginesize <= maxEngineSize.Value);
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(c => c.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(c => c.Price <= maxPrice.Value);
             }
 
             if (minYear.HasValue)
@@ -101,6 +133,7 @@ namespace praca.repository
 
             return await query.ToListAsync();
         }
+
 
 
     }

@@ -53,7 +53,10 @@ namespace praca.Controllers
                 carCreateDto.Model,
                 carCreateDto.Year,
                 carCreateDto.IsRented,
-                imagePath // Przekazujemy œcie¿kê
+                imagePath,
+                carCreateDto.Transmission,
+                carCreateDto.Enginesize,
+                carCreateDto.Price
             );
 
             return Ok("Samochód zosta³ pomyœlnie dodany");
@@ -73,7 +76,7 @@ namespace praca.Controllers
 
             return Ok(new { Message = "Samochód zosta³ pomyœlnie usuniêty." });
         }
-
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCarAsync(int id, [FromForm] CarUpdateDto request)
         {
@@ -92,7 +95,7 @@ namespace praca.Controllers
                 imagePath = $"/images/{uniqueFileName}";
             }
 
-            var carUpdated = await _carRepository.UpdateCarAsync(id, request.Model, request.Marka, request.Year, imagePath);
+            var carUpdated = await _carRepository.UpdateCarAsync(id, request.Model, request.Marka, request.Year, imagePath , request.Transmission, request.Enginesize, request.Price);
 
             if (!carUpdated)
                 return NotFound(); // Samochód nie zosta³ znaleziony, wiêc zwracamy NotFound
@@ -123,9 +126,9 @@ namespace praca.Controllers
         }
 
         [HttpGet("search-cars")]
-        public async Task<ActionResult<IEnumerable<Car>>> SearchCars([FromQuery] string? marka, [FromQuery] string? model, [FromQuery] int? minYear, [FromQuery] int? maxYear)
+        public async Task<ActionResult<IEnumerable<Car>>> SearchCars([FromQuery] string? marka, [FromQuery] string? model, [FromQuery] int? minYear, [FromQuery] int? maxYear, [FromQuery] string? transmission, [FromQuery] float? minEngineSize, [FromQuery] int? minPrice , [FromQuery] float? maxEngineSize , [FromQuery] int? maxPrice)
         {
-            var cars = await _carRepository.SearchCarsAsync(marka, model, minYear, maxYear);
+            var cars = await _carRepository.SearchCarsAsync(marka, model, minYear, maxYear, transmission, minEngineSize, maxEngineSize, minPrice, maxPrice);
             if (cars == null || !cars.Any())
             {
                 return NotFound("Nie ma aut o takim kryterium.");
