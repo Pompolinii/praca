@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace praca.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20240824020400_AddCarNewFields")]
-    partial class AddCarNewFields
+    [Migration("20240827150953_Koniec")]
+    partial class Koniec
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

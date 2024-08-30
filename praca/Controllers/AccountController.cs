@@ -70,10 +70,10 @@ public class AccountController : ControllerBase
         {
             var appUser = await _userManager.FindByEmailAsync(model.Email);
             var token = await GenerateJwtToken(appUser);
-            // Pobierz role użytkownika
+           
             var roles = await _userManager.GetRolesAsync(appUser);
 
-            // Zwróć token oraz rolę użytkownika
+           
             return Ok(new { Token = token});
        
         }

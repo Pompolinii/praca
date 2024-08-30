@@ -15,13 +15,11 @@ public class CarDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-       // modelBuilder.Entity<Car>()
-                //.Ignore(c => c.ImagePath);
-                // Ignorowanie właściwości IFormFile
+       
 
         base.OnModelCreating(modelBuilder);
 
-        // Configure ASP.NET Identity tables
+       
 
     }
 }

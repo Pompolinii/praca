@@ -36,7 +36,7 @@ public class RentalsController : ControllerBase
         var rental = new Rental
         {
             CarId = car.Id,
-            UserId = request.UserId, // To powinno być string
+            UserId = request.UserId, 
             RentedAt = DateTime.Now
         };
 
@@ -60,6 +60,7 @@ public class RentalsController : ControllerBase
 
         rental.IsReturned = true;
         rental.Car.IsRented = false;
+        rental.ReturnedAt = DateTime.Now;
 
         await _context.SaveChangesAsync();
 
@@ -72,7 +73,7 @@ public class RentalsController : ControllerBase
     {
         var rentals = await _context.Rentals
             .Include(r => r.Car)
-            .Where(r => r.UserId == userId && !r.IsReturned) // Sprawdzamy IsReturned
+            .Where(r => r.UserId == userId && !r.IsReturned) 
             .ToListAsync();
 
         return Ok(rentals);

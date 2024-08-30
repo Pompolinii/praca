@@ -21,7 +21,7 @@ namespace praca.Controllers
         }
         [Authorize(Policy = "AdminOnly")]
         [HttpPost]
-        public async Task<IActionResult> PostCar([FromForm] CarCreateDto carCreateDto) // Zmieniamy na [FromForm]
+        public async Task<IActionResult> PostCar([FromForm] CarCreateDto carCreateDto) 
         {
             if (!ModelState.IsValid)
             {
@@ -33,21 +33,21 @@ namespace praca.Controllers
             if (carCreateDto.ImagePath != null)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                Directory.CreateDirectory(uploadsFolder); // Upewnij siê, ¿e katalog jest tworzony
+                Directory.CreateDirectory(uploadsFolder); 
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + carCreateDto.ImagePath.FileName;
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                // Zapis pliku
+                
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await carCreateDto.ImagePath.CopyToAsync(fileStream);
                 }
 
-                // Ustal œcie¿kê do obrazu
+                
                 imagePath = $"/images/{uniqueFileName}";
             }
 
-            // Zaktualizuj wywo³anie repository, aby u¿ywaæ poprawnej œcie¿ki
+            
             var result = await _carRepository.PostCarAsync(
                 carCreateDto.Marka,
                 carCreateDto.Model,
@@ -72,7 +72,7 @@ namespace praca.Controllers
             var carDeleted = await _carRepository.DeleteCarAsync(id);
 
             if (!carDeleted)
-                return NotFound(); // Samochód nie zosta³ znaleziony, wiêc zwracamy NotFound
+                return NotFound(); 
 
             return Ok(new { Message = "Samochód zosta³ pomyœlnie usuniêty." });
         }
@@ -98,13 +98,13 @@ namespace praca.Controllers
             var carUpdated = await _carRepository.UpdateCarAsync(id, request.Model, request.Marka, request.Year, imagePath , request.Transmission, request.Enginesize, request.Price);
 
             if (!carUpdated)
-                return NotFound(); // Samochód nie zosta³ znaleziony, wiêc zwracamy NotFound
+                return NotFound(); 
 
             return Ok(new { Message = "Samochód zosta³ pomyœlnie zaktualizowany." });
         }
 
 
-        // GET: api/cars
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
@@ -113,7 +113,7 @@ namespace praca.Controllers
         }
 
 
-        // GET: api/cars/{id}
+       
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> GetCar(int id)
         {
@@ -131,7 +131,7 @@ namespace praca.Controllers
             var cars = await _carRepository.SearchCarsAsync(marka, model, minYear, maxYear, transmission, minEngineSize, maxEngineSize, minPrice, maxPrice);
             if (cars == null || !cars.Any())
             {
-                return NotFound("Nie ma aut o takim kryterium.");
+                return Ok(new List<Car>());
             }
             return Ok(cars);
         }

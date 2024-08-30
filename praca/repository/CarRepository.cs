@@ -38,12 +38,12 @@ namespace praca.repository
             var carToDelete = await _carDbContext.Set<Car>().FindAsync(carId);
 
             if (carToDelete == null)
-                return false; // Samochód nie został znaleziony, więc nie można go usunąć
+                return false; 
 
             _carDbContext.Set<Car>().Remove(carToDelete);
             await _carDbContext.SaveChangesAsync();
 
-            return true; // Usunięcie samochodu zakończone sukcesem
+            return true; 
         }
 
 
@@ -60,7 +60,7 @@ namespace praca.repository
             car.Enginesize = enginesize;
             car.Price = price;
 
-            // Aktualizujemy ścieżkę do obrazu tylko wtedy, gdy jest przekazana
+            
             if (!string.IsNullOrEmpty(imagePath))
             {
                 car.ImagePath = imagePath;
@@ -131,7 +131,11 @@ namespace praca.repository
                 query = query.Where(c => c.Year <= maxYear.Value);
             }
 
-            return await query.ToListAsync();
+            var cars = await query.ToListAsync();
+
+            return (cars);
+
+
         }
 
 
