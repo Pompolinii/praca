@@ -10,5 +10,6 @@ namespace praca.Entities
         public DateTime DateOfBirth { get; set; }
         public string DriverLicenseNumber { get; set; }
         public DateTime MembershipDate { get; set; }
+        public decimal Balance { get; set; }
     }
 }

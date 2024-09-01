@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace praca.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20240827150953_Koniec")]
-    partial class Koniec
+    [Migration("20240830150811_platnosci")]
+    partial class platnosci
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -168,6 +168,9 @@ namespace praca.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -291,13 +294,13 @@ namespace praca.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsReturned")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("RentedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ReturnedAt")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")

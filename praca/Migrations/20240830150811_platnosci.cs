@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace praca.Migrations
 {
-    public partial class Koniec : Migration
+    public partial class platnosci : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,7 @@ namespace praca.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DriverLicenseNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MembershipDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -187,8 +188,8 @@ namespace praca.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CarId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RentedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReturnedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsReturned = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

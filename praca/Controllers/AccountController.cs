@@ -117,6 +117,20 @@ public class AccountController : ControllerBase
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    [HttpGet("{id}/balance")]
+    public async Task<IActionResult> GetBalance(string id)
+    {
+        // Znajdź użytkownika na podstawie ID
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        // Zwróć saldo użytkownika
+        return Ok(new { balance = user.Balance });
+    }
+
 
 }
 

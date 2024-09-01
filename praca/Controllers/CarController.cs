@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using praca.Entities;
@@ -153,6 +154,8 @@ namespace praca.Controllers
 
             return Ok(roles);
         }
+
+     
 
 
 
